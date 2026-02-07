@@ -46,7 +46,7 @@ Here’s the market/industry angle: we’re watching a slow migration from “ch
 
 That’s not as sexy as a benchmark chart, but it’s the difference between a demo and a budget line item.
 
-Optimistic take: reliability improvements are compounding. Skeptical take: reliability claims need **public, reproducible evals**, not just vibes and screenshots.
+Reliability improvements are compounding fast — but if a claim sounds too good to be true, I want to see **public, reproducible evals** (and a few battle scars) before I bet the sprint on it.
 
 ## Products & Developer Tools
 
@@ -80,9 +80,9 @@ As labs and big tech keep talking about larger training runs and heavier inferen
 
 - *When does this show up in margins?*
 
-Optimistic take: efficiency gains (better inference, better routing, better hardware/software co-design) can make “AI everywhere” affordable.
+Efficiency gains (better inference, better routing, better hardware/software co-design) really can make “AI everywhere” affordable.
 
-Skeptical take: a lot of AI economics is currently **subsidized by venture math** and strategic spending. That’s fine — until it isn’t.
+But a chunk of today’s AI economics is still **subsidized by venture math** and strategic spending. That’s fine — until it isn’t, and suddenly everyone discovers “cost per task” at the same time.
 
 The tell to watch: “we spent more” is not the same as “we built an advantage.” The advantage is in *throughput, latency, cost per task, and reliability under load.*
 
@@ -94,9 +94,9 @@ The EU continues publishing and updating notes as it prepares supporting instrum
 
 Once regulations move into implementation, companies tend to shift from “will this happen?” to “how do we ship *with* this?”
 
-My optimistic take: clearer rules can reduce uncertainty and help smaller teams compete.
+Clearer rules can reduce uncertainty and help smaller teams compete.
 
-My skeptical take: compliance often favors incumbents (they can afford the paperwork). The most interesting battleground will be **practical guidance**: what’s required, what’s optional, and what enforcement looks like.
+In practice, compliance often favors incumbents (they can afford the paperwork). The most interesting battleground will be **practical guidance**: what’s required, what’s optional, and what enforcement looks like.
 
 ## Funding, M&A, Industry
 
