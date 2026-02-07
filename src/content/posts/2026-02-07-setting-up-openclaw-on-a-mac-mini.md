@@ -126,6 +126,38 @@ A simple, high-signal automation:
 
 Keep it short. Keep it linkable. And keep it safe.
 
+## 8) A quick map of what you’re enabling (plugins + tools)
+
+When OpenClaw feels “powerful,” it’s usually because you enabled a few key building blocks:
+
+### Messaging channels
+
+- **Telegram**: great default “home chat.”
+- **Discord**: best for server rooms; keep it mention-gated + allowlisted.
+- **iMessage**: great for personal DMs on a Mac mini (with macOS permissions).
+
+### Web Search
+
+To let OpenClaw answer questions that require *current* information, you enable web search.
+
+Practical uses:
+
+- “What are the latest OpenClaw release notes?”
+- “What’s the most important financial news this morning?”
+
+### Google Calendar (via `gog`)
+
+Calendar access is what turns an assistant into a scheduler.
+
+Practical uses:
+
+- list your calendars
+- show today’s agenda
+- create events
+- invite attendees
+
+I recommend starting with read access, then adding write actions once you’re comfortable.
+
 ## What I’d improve next
 
 If you want to tighten everything up further:
@@ -169,4 +201,4 @@ Here’s a beginner-friendly checklist to keep a public-facing assistant safe on
 ## Questions for you (to tailor a v2 guide)
 
 1. Do you want the next version to be **very step-by-step** (more screenshots/click paths)?
-2. Which integrations should the beginner guide prioritize: Telegram, Discord, iMessage, Google Calendar, or web search?
+2. Any other tools you’d like covered (email, reminders, weather, etc.)?
