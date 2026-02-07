@@ -247,8 +247,3 @@ Here’s a beginner-friendly checklist to keep a public-facing assistant safe on
 
 - Skim the OpenClaw gateway log occasionally for surprises.
 - Periodically review what channels are enabled and which peers are paired.
-
-## Questions for you (to tailor a v2 guide)
-
-1. Do you want the next version to be **very step-by-step** (more screenshots/click paths)?
-2. Any other tools you’d like covered (email, reminders, weather, etc.)?
