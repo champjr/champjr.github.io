@@ -38,7 +38,7 @@ This week had a clear shape:
 
 Anthropic announced an upgrade to its flagship model line, pitching improved reliability and longer task execution, with gains related to coding and finance. (Reuters)
 
-Here’s the market/industry angle: we’re watching a slow migration from “chatbot” to **workflow component**. Once you plug a model into real operations, the question is less “how smart is it?” and more:
+The industry’s starting to treat these models less like “chatbots” and more like **workflow components**. Once you plug a model into real operations, the question is less “how smart is it?” and more:
 
 - *How often does it stall?*
 - *How often does it hallucinate?*
@@ -66,7 +66,7 @@ Cool new capability to watch for: models getting better at *staying on task* acr
 
 Apple’s newsroom post frames agentic coding as a first-class workflow inside Xcode. (Apple)
 
-Industry take: the best distribution channel for coding agents is the IDE itself. Once it’s “in the editor,” adoption stops being a deliberate decision and starts being an **ambient feature**. That’s how tools become default.
+The industry’s best distribution channel for coding agents is the IDE itself. Once it’s “in the editor,” adoption stops being a deliberate decision and starts being an **ambient feature**. That’s how tools become default.
 
 Also: when Apple blesses a workflow, it tends to normalize it for a much broader chunk of developers. Expect more “agentic” language to show up in devtools marketing, whether or not the tool is actually agentic.
 
