@@ -1,0 +1,137 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="Search" description="Search posts by title, tags, and content">
+  <h1>Search</h1>
+  <p class="muted">Search titles, descriptions, tags, and post text. (Client-side; nothing is sent to a server.)</p>
+
+  <div class="card" style="margin-top: 14px;">
+    <label for="q" class="muted" style="display:block; margin-bottom: 8px;">Query</label>
+    <input id="q" type="search" placeholder="Try: openclaw, weekly roundup, CTA…" style="width:100%; font-size: 1rem; padding: 10px 12px; border-radius: 10px; border: 1px solid rgba(127,127,127,0.35); background: transparent; color: inherit;" />
+    <div class="muted" id="meta" style="margin-top: 10px; font-size: 0.95rem;"></div>
+  </div>
+
+  <div id="results" style="margin-top: 18px;"></div>
+
+  <script>
+    const input = document.getElementById('q');
+    const resultsEl = document.getElementById('results');
+    const metaEl = document.getElementById('meta');
+
+    function escHtml(s) {
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function tokenize(q) {
+      return q
+        .toLowerCase()
+        .split(/\s+/)
+        .map(t => t.trim())
+        .filter(Boolean);
+    }
+
+    function scoreItem(item, terms) {
+      if (!terms.length) return 0;
+      const title = (item.title || '').toLowerCase();
+      const desc = (item.description || '').toLowerCase();
+      const tags = (item.tags || []).join(' ').toLowerCase();
+      const content = (item.content || '').toLowerCase();
+
+      let score = 0;
+      for (const t of terms) {
+        if (title.includes(t)) score += 8;
+        if (tags.includes(t)) score += 6;
+        if (desc.includes(t)) score += 3;
+        if (content.includes(t)) score += 1;
+      }
+      return score;
+    }
+
+    function snippet(item, terms) {
+      const text = item.content || '';
+      if (!text) return '';
+      const lower = text.toLowerCase();
+      let idx = -1;
+      for (const t of terms) {
+        const i = lower.indexOf(t);
+        if (i !== -1 && (idx === -1 || i < idx)) idx = i;
+      }
+      if (idx === -1) return text.slice(0, 220) + (text.length > 220 ? '…' : '');
+      const start = Math.max(0, idx - 80);
+      const end = Math.min(text.length, idx + 160);
+      const s = text.slice(start, end);
+      return (start > 0 ? '…' : '') + s + (end < text.length ? '…' : '');
+    }
+
+    function render(items, q) {
+      const terms = tokenize(q);
+      if (!terms.length) {
+        metaEl.textContent = 'Type to search.';
+        resultsEl.innerHTML = '';
+        return;
+      }
+
+      const scored = items
+        .map(item => ({ item, score: scoreItem(item, terms) }))
+        .filter(x => x.score > 0)
+        .sort((a, b) => b.score - a.score);
+
+      metaEl.textContent = `${scored.length} result${scored.length === 1 ? '' : 's'} for “${q}”`;
+
+      if (!scored.length) {
+        resultsEl.innerHTML = '<p>No matches. Try fewer words or a tag like <a href="/tags">#openclaw</a>.</p>';
+        return;
+      }
+
+      const html = scored.slice(0, 30).map(({ item }) => {
+        const tagLinks = (item.tags || []).map(t => `<a href="/tags/${encodeURIComponent(t)}/">#${escHtml(t)}</a>`).join(' ');
+        const snip = escHtml(snippet(item, terms));
+        return `
+          <div class="card" style="margin: 12px 0;">
+            <div style="display:flex; gap: 10px; align-items: baseline; flex-wrap: wrap;">
+              <a href="/posts/${item.slug}/"><strong>${escHtml(item.title)}</strong></a>
+              <span class="muted" style="font-size: 0.9rem;">${new Date(item.pubDate).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })}</span>
+            </div>
+            ${item.description ? `<div class="muted" style="margin-top: 6px;">${escHtml(item.description)}</div>` : ''}
+            ${tagLinks ? `<div class="taglist" style="margin-top: 10px;">${tagLinks}</div>` : ''}
+            ${snip ? `<div style="margin-top: 10px;">${snip}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+
+      resultsEl.innerHTML = html;
+    }
+
+    async function main() {
+      const res = await fetch('/search.json');
+      const data = await res.json();
+      const items = data.items || [];
+
+      const url = new URL(window.location.href);
+      const initial = url.searchParams.get('q') || '';
+      input.value = initial;
+      render(items, initial);
+
+      let timer;
+      input.addEventListener('input', () => {
+        clearTimeout(timer);
+        timer = setTimeout(() => {
+          const q = input.value;
+          const u = new URL(window.location.href);
+          if (q) u.searchParams.set('q', q); else u.searchParams.delete('q');
+          window.history.replaceState({}, '', u);
+          render(items, q);
+        }, 60);
+      });
+
+      input.focus();
+      input.select();
+    }
+
+    main().catch((err) => {
+      metaEl.textContent = 'Search failed to load.';
+      console.error(err);
+    });
+  </script>
+</BaseLayout>
