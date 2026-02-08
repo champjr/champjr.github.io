@@ -32,6 +32,9 @@ const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
       footer { padding: 24px 0 12px; border-top: 1px solid rgba(127,127,127,0.25); font-size: 0.9rem; opacity: 0.85; }
       .muted { opacity: 0.75; }
       .card { border: 1px solid rgba(127,127,127,0.25); border-radius: 14px; padding: 16px; }
+      .taglist { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 0; padding: 0; list-style: none; }
+      .taglist a { text-decoration: none; font-size: 0.9rem; padding: 4px 10px; border-radius: 999px; border: 1px solid rgba(127,127,127,0.25); opacity: 0.95; }
+      .taglist a:hover { border-color: rgba(127,127,127,0.6); }
       code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
       pre { overflow: auto; padding: 14px; border-radius: 12px; border: 1px solid rgba(127,127,127,0.25); }
     </style>
@@ -47,6 +50,7 @@ const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
           <a href="/">Home</a>
           <a href="/about">About</a>
           <a href="/posts">Posts</a>
+          <a href="/tags">Tags</a>
         </nav>
       </header>
 

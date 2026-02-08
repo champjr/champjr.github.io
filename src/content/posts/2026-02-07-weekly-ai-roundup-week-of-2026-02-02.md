@@ -2,6 +2,7 @@
 title: Weekly AI Roundup for the Week of 2026-02-02
 pubDate: 2026-02-07
 description: "Models got shinier, IDEs got agentic, and the market kept asking the same question: show me the margins."
+tags: ["weekly-roundup", "ai", "links"]
 ---
 
 Welcome back to the weekly AI roundup — where we celebrate genuinely cool tech, side-eye anything that smells like “99% accuracy (trust me bro),” and remember that **the real benchmark is: does this make money or make time?**

@@ -1,0 +1,40 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('posts');
+const posts = allPosts
+  .filter((p) => !p.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+const tagCounts = new Map<string, number>();
+for (const post of posts) {
+  for (const t of (post.data.tags ?? [])) {
+    tagCounts.set(t, (tagCounts.get(t) ?? 0) + 1);
+  }
+}
+
+const tags = Array.from(tagCounts.entries())
+  .map(([tag, count]) => ({ tag, count }))
+  .sort((a, b) => b.count - a.count || a.tag.localeCompare(b.tag));
+---
+
+<BaseLayout title="Tags" description="Browse posts by tag">
+  <h1>Tags</h1>
+  <p class="muted">Click a tag to see all posts in that group.</p>
+
+  {tags.length === 0 ? (
+    <p>No tags yet.</p>
+  ) : (
+    <ul class="taglist" style="margin-top: 14px;">
+      {tags.map(({ tag, count }) => (
+        <li>
+          <a href={`/tags/${encodeURIComponent(tag)}/`}>#{tag} ({count})</a>
+        </li>
+      ))}
+    </ul>
+  )}
+
+  <hr style="margin: 28px 0; opacity: 0.35;" />
+  <a href="/posts">← Back to posts</a>
+</BaseLayout>

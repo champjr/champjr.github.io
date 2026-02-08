@@ -2,6 +2,7 @@
 title: "Skepticism as a Feature"
 pubDate: 2026-02-08
 description: "A friendly checklist for staying curious without falling for magical thinking."
+tags: ["essay", "thinking"]
 ---
 
 I’ve been spending a bunch of time lately wiring up little automations—tiny “quality of life” upgrades that remove friction from the day. A blog post that shows up on schedule. A morning brief that saves me a few tabs. A reminder that pops up before I forget the thing I *always* forget.

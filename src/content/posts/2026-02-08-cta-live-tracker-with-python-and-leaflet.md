@@ -2,6 +2,7 @@
 title: "Building a CTA Live Tracker (CLI + Real‑Time Map) with Zero Dependencies"
 pubDate: 2026-02-08
 description: "A small Python toolkit + Leaflet web app that tracks CTA buses live, shows routes/stops, and pulls arrival predictions—built fast with Claude, but designed to run anywhere."
+tags: ["project", "python", "cta", "chicago", "maps"]
 ---
 
 I wanted a **fast way to answer a simple Chicago question**:
