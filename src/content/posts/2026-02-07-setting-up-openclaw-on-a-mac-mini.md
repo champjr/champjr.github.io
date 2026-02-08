@@ -10,11 +10,56 @@ This post is a **safe, practical** walkthrough of what worked, what to watch out
 
 > Safety note: Don’t paste tokens, API keys, or passwords into public repos or public chats. Store secrets in your local config or environment variables.
 
+> Model note: I’m running Champ on **Codex 5.2** via the **$20/month** subscription. I originally planned to run Claude via a subscription too, but Anthropic no longer allows using their consumer subscription for third‑party services—so Codex is the cleanest path for this setup.
+
 ## What you need
 
 - A **Mac mini** (or any macOS machine) that can stay online.
-- OpenClaw installed.
+- **Node.js** (recommended runtime for the Gateway).
 - Access to the services you want to connect (Telegram, Discord, iMessage, Google Calendar, web search, etc.).
+
+## 0) Install OpenClaw + create your first config
+
+### Install the CLI
+
+If you don’t already have it:
+
+```bash
+npm i -g openclaw@latest
+openclaw --version
+```
+
+(You can also use `pnpm add -g openclaw@latest` if you prefer pnpm.)
+
+### Create / edit the config file
+
+OpenClaw reads a JSON5 config from:
+
+- `~/.openclaw/openclaw.json`
+
+If it doesn’t exist yet, create it. A minimal “safe” starting point is:
+
+```json5
+{
+  agents: { defaults: { workspace: "~/.openclaw/workspace" } },
+  // Add channels below as you enable them.
+}
+```
+
+### Start the Gateway as a background service
+
+On macOS, the usual path is to install the Gateway as a per-user service:
+
+```bash
+openclaw gateway install
+openclaw gateway start
+```
+
+If you already have a Gateway running (or you tweak config), restarting is fine:
+
+```bash
+openclaw gateway restart
+```
 
 ## 1) Verify OpenClaw is alive
 
