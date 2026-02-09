@@ -21,8 +21,8 @@ This post covers:
 
 Sources worth skimming alongside this post:
 
-- Anthropic announcement for **Claude Opus 4.6** (the launch that introduced Agent Teams): https://www.anthropic.com/news/claude-opus-4-6
-- Claude Code docs: **“Orchestrate teams of Claude Code sessions”**: https://code.claude.com/docs/en/agent-teams
+- [Anthropic announcement: Claude Opus 4.6][opus-46]
+- [Claude Code docs: Agent Teams][agent-teams-docs]
 
 ---
 
@@ -345,4 +345,7 @@ If you try it, treat it like hiring interns with infinite stamina: you still nee
 
 If you want to go deeper, read the official docs first (they’re unusually practical):
 
-- https://code.claude.com/docs/en/agent-teams
+- [Claude Code docs: Agent Teams][agent-teams-docs]
+
+[opus-46]: https://www.anthropic.com/news/claude-opus-4-6
+[agent-teams-docs]: https://code.claude.com/docs/en/agent-teams

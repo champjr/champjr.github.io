@@ -16,7 +16,7 @@ They’re also amazing at a third thing that nobody advertises:
 
 If you’ve ever watched an agent “get lost” in a long conversation, re-read old messages, forget constraints, or start over from scratch… that’s not just a model problem. It’s usually a **context engineering** problem.
 
-Anthropic has a useful framing here: *context is a finite resource with diminishing returns*—as you stuff more tokens into the window, you can get “context rot” where retrieval and reasoning degrade. Context should be treated like an **attention budget**, not an infinite hard drive. Source: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
+Anthropic has a useful framing here: *context is a finite resource with diminishing returns*—as you stuff more tokens into the window, you can get “context rot” where retrieval and reasoning degrade. Context should be treated like an **attention budget**, not an infinite hard drive. Source: [Anthropic: Effective context engineering][anthropic-context]
 
 This post is a practical playbook for being **efficient** with agents:
 
@@ -54,7 +54,7 @@ If you want an agent to behave well, you have to keep its working set **small, r
 
 (Examples: a file path, a URL, a search query, an issue ID, a checklist item.)
 
-Anthropic explicitly recommends “just in time” context: keep lightweight identifiers (paths, links, queries), and load details only when needed using tools. Source: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
+Anthropic explicitly recommends “just in time” context: keep lightweight identifiers (paths, links, queries), and load details only when needed using tools. Source: [Anthropic: Effective context engineering][anthropic-context]
 
 ---
 
@@ -69,7 +69,7 @@ The agent doesn’t need 40 paragraphs of rules. It needs:
 - definition of done
 - and a way to ask questions when it’s blocked
 
-Anthropic’s guidance: system prompts should be clear and direct, and you should aim for the **minimal set of information** that fully outlines expected behavior—then add only what’s needed based on observed failure modes. Source: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
+Anthropic’s guidance: system prompts should be clear and direct, and you should aim for the **minimal set of information** that fully outlines expected behavior—then add only what’s needed based on observed failure modes. Source: [Anthropic: Effective context engineering][anthropic-context]
 
 ### A good “agent task” template
 
@@ -97,7 +97,7 @@ This gets you 80% of the value with 20% of the tokens.
 
 A big efficiency win is choosing the simplest architecture that works.
 
-Anthropic makes a strong point: often you don’t need “agents” at all—**a few well-structured LLM calls with retrieval and examples** can outperform a wandering autonomous loop, with better cost/latency. Source: https://www.anthropic.com/engineering/building-effective-agents
+Anthropic makes a strong point: often you don’t need “agents” at all—**a few well-structured LLM calls with retrieval and examples** can outperform a wandering autonomous loop, with better cost/latency. Source: [Anthropic: Building Effective Agents][anthropic-effective-agents]
 
 ### The ladder (cheapest → most expensive)
 
@@ -156,7 +156,7 @@ A tiny bit of tool guidance saves a ton of tokens:
 - “When searching logs, show only errors and surrounding context.”
 - “Prefer IDs/paths over copying large bodies.”
 
-Anthropic’s context engineering guidance emphasizes that tools should promote efficiency and avoid overlapping/ambiguous toolsets. Source: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
+Anthropic’s context engineering guidance emphasizes that tools should promote efficiency and avoid overlapping/ambiguous toolsets. Source: [Anthropic: Effective context engineering][anthropic-context]
 
 ---
 
@@ -204,7 +204,7 @@ Put them in:
 
 Then the agent can **reference the file** and load only what it needs.
 
-This aligns with the “just in time” approach: keep pointers, load details only when needed. Source: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
+This aligns with the “just in time” approach: keep pointers, load details only when needed. Source: [Anthropic: Effective context engineering][anthropic-context]
 
 ---
 
@@ -244,7 +244,7 @@ Parallelism is best when:
 - each worker has a distinct lens
 - aggregation is straightforward
 
-Anthropic’s “Building Effective Agents” highlights parallelization as useful for either **independent sections** or **voting/multiple perspectives**. Source: https://www.anthropic.com/engineering/building-effective-agents
+Anthropic’s “Building Effective Agents” highlights parallelization as useful for either **independent sections** or **voting/multiple perspectives**. Source: [Anthropic: Building Effective Agents][anthropic-effective-agents]
 
 ### High-ROI parallel patterns
 
@@ -276,7 +276,7 @@ Split by topic, not by source. (More coherent.)
 
 If you’re using an API platform that supports prompt caching, structure your prompt so the shared prefix stays identical.
 
-OpenAI’s guidance is explicit: cache hits require exact prefix matches; put static instructions and examples at the beginning, and variable content at the end. Source: https://platform.openai.com/docs/guides/prompt-caching
+OpenAI’s guidance is explicit: cache hits require exact prefix matches; put static instructions and examples at the beginning, and variable content at the end. Source: [OpenAI: Prompt caching][openai-prompt-caching]
 
 Even if you’re not using prompt caching explicitly, this structure still helps performance:
 
@@ -302,7 +302,7 @@ Common strategy:
 - cheap model: summarization, extraction, formatting, boilerplate
 - expensive model: planning, architecture, debugging, ambiguous problems
 
-Anthropic describes routing as a way to send easy tasks to smaller models and hard tasks to larger ones, optimizing cost/performance. Source: https://www.anthropic.com/engineering/building-effective-agents
+Anthropic describes routing as a way to send easy tasks to smaller models and hard tasks to larger ones, optimizing cost/performance. Source: [Anthropic: Building Effective Agents][anthropic-effective-agents]
 
 If you don’t do this, you’ll end up paying premium rates to format bullet points.
 
@@ -364,3 +364,15 @@ They:
 - and **treat tokens like money** (because they are)
 
 You don’t need to starve the model. You just need to stop feeding it junk.
+
+---
+
+## Sources
+
+- [Anthropic: Effective context engineering][anthropic-context]
+- [Anthropic: Building Effective Agents][anthropic-effective-agents]
+- [OpenAI: Prompt caching][openai-prompt-caching]
+
+[anthropic-context]: https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents
+[anthropic-effective-agents]: https://www.anthropic.com/engineering/building-effective-agents
+[openai-prompt-caching]: https://platform.openai.com/docs/guides/prompt-caching
