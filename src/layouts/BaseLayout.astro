@@ -123,14 +123,32 @@ const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
       .taglist { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 0; padding: 0; list-style: none; }
       .taglist a {
         text-decoration: none;
-        color: inherit;
+        color: var(--fg);
         font-size: 0.9rem;
-        padding: 4px 10px;
+        padding: 5px 11px;
         border-radius: 999px;
         border: 1px solid var(--border);
-        background: rgba(127,127,127,0.05);
+        background: rgba(255,255,255,0.35);
+        box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+        transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
       }
-      .taglist a:hover { background: rgba(127,127,127,0.09); }
+      .taglist a:hover {
+        background: rgba(255,255,255,0.55);
+        border-color: rgba(27, 26, 23, 0.22);
+        transform: translateY(-1px);
+      }
+      .taglist a:active { transform: translateY(0px); }
+
+      @media (prefers-color-scheme: dark) {
+        .taglist a {
+          background: rgba(242, 238, 230, 0.06);
+          box-shadow: 0 1px 0 rgba(0,0,0,0.30);
+        }
+        .taglist a:hover {
+          background: rgba(242, 238, 230, 0.10);
+          border-color: rgba(242, 238, 230, 0.22);
+        }
+      }
 
       code, pre { font-family: var(--mono); }
       code { background: var(--codeBg); padding: 0.12em 0.35em; border-radius: 8px; }
