@@ -22,6 +22,7 @@ This page includes a tiny Strudel “instrument” embedded as an iframe.
   width="100%"
   height="320"
   loading="lazy"
+  allow="autoplay"
   style="border:1px solid rgba(127,127,127,.35); border-radius: 12px;"
   title="Strudel beat demo"
 ></iframe>

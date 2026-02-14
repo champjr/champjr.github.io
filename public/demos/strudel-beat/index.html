@@ -58,22 +58,36 @@ $ : s("sd*2").delay(0.5)
         getTime: () => ctx.currentTime,
       });
 
-      // Build a simple beat. Prefer the classic drum sample names if available.
+      // Build a simple beat.
+      // iOS Safari/Chrome-in-iOS can be picky about sample packs / fetch timing,
+      // so this demo uses only built-in synth waveforms (no external samples).
       function makePattern() {
-        // Most Strudel examples use `s(...)` to set the sound/sample name.
-        if (typeof Core.s === "function" && typeof Core.stack === "function") {
-          const bd = Core.s("bd").fast(4);
-          const hh = Core.s("hh").fast(8).gain(0.7);
-          const sd = Core.s("sd").fast(2).delay(0.5).gain(0.9);
-          return Core.stack(bd, hh, sd);
+        if (typeof Core.note !== "function" || typeof Core.stack !== "function") {
+          throw new Error("Could not find expected Strudel functions (note/stack)." );
         }
 
-        // Fallback: a percussive synth click track.
-        if (typeof Core.note === "function") {
-          return Core.note("c5").s("square").release(0.02).fast(8);
-        }
+        // A very basic 4-on-the-floor-ish pulse using synths.
+        // (Not as punchy as real drum samples, but reliable across browsers.)
+        const kick = Core.note("c2")
+          .s("sine")
+          .release(0.08)
+          .gain(0.9)
+          .fast(4);
 
-        throw new Error("Could not find expected Strudel functions (s/stack or note)." );
+        const hat = Core.note("c6")
+          .s("square")
+          .release(0.02)
+          .gain(0.25)
+          .fast(8);
+
+        const snare = Core.note("g3")
+          .s("triangle")
+          .release(0.05)
+          .gain(0.35)
+          .fast(2)
+          .delay(0.5);
+
+        return Core.stack(kick, hat, snare);
       }
 
       let pattern;
