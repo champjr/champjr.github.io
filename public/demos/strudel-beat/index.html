@@ -24,9 +24,11 @@
 
     <p class="muted">This is a minimal Strudel-in-the-browser demo embedded in the blog. It pulls Strudel from an ESM CDN.</p>
 
-    <pre><code id="pattern">$ : s("bd*4")
-$ : s("hh*8")
-$ : s("sd*2").delay(0.5)
+    <pre><code id="pattern">// House-ish loop (synth-only so it works everywhere)
+// Kick: 4-on-the-floor
+// Clap: on 2 & 4
+// Hats: 16ths + offbeat open hat
+// Bass: simple minor riff
 </code></pre>
 
     <div id="status" class="muted"></div>
@@ -73,30 +75,53 @@ $ : s("sd*2").delay(0.5)
           throw new Error("Could not find expected Strudel functions (note/stack)." );
         }
 
-        // A very basic 4-on-the-floor-ish pulse using built-in synth waveforms.
+        // A simple house-ish groove using built-in synth waveforms.
+        // (No external samples: more reliable for phones + embeds.)
+
+        // Kick: 4-on-the-floor
         const kick = Core.note("c2")
-          .s("sawtooth")
-          .release(0.08)
-          .gain(0.25)
-          .lpf(180)
+          .s("sine")
+          .release(0.09)
+          .gain(0.9)
+          .lpf(160)
           .fast(4);
 
-        const hat = Core.note("c6")
+        // Clap: 2 & 4 (delayed by half a beat), slightly brighter
+        const clap = Core.note("c4")
           .s("square")
-          .release(0.02)
-          .gain(0.08)
-          .hpf(3000)
-          .fast(8);
-
-        const snare = Core.note("g3")
-          .s("triangle")
-          .release(0.05)
-          .gain(0.12)
-          .bpf(1200)
+          .release(0.03)
+          .gain(0.14)
+          .bpf(1800)
           .fast(2)
           .delay(0.5);
 
-        return Core.stack(kick, hat, snare);
+        // Closed hat: 16ths with a tiny accent pattern
+        const ch = Core.note("c6")
+          .s("square")
+          .release(0.015)
+          .gain(0.05)
+          .hpf(4500)
+          .fast(16)
+          .gain("<0.6 0.9 0.6 0.7>");
+
+        // Open hat: offbeats (every 8th, delayed), longer decay
+        const oh = Core.note("c6")
+          .s("sawtooth")
+          .release(0.08)
+          .gain(0.03)
+          .hpf(3500)
+          .fast(8)
+          .delay(0.5);
+
+        // Bass: simple minor riff (repeat and filter down)
+        const bass = Core.note("<c2 c2 eb2 g1>")
+          .s("sawtooth")
+          .release(0.12)
+          .gain(0.18)
+          .lpf(260)
+          .fast(4);
+
+        return Core.stack(kick, clap, ch, oh, bass);
       }
 
       let pattern;
