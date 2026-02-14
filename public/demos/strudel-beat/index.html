@@ -69,10 +69,15 @@
         setError("Strudel core loaded, but Core.repl() was not found. The CDN bundle may have changed.");
       }
 
-      const { scheduler } = Core.repl({
+      const repl = Core.repl({
         defaultOutput: webaudioOutput,
         getTime: () => ctx.currentTime,
       });
+      const { scheduler } = repl;
+
+      // Tempo: Strudel uses cycles-per-minute (cpm). In 4/4, BPM ≈ cpm * 4.
+      // Deep house often sits ~122–126, but you asked for 128 BPM.
+      repl.setcpm?.(128/4);
 
       // Build patterns.
       // iOS Safari/Chrome-in-iOS can be picky about sample packs / fetch timing,
@@ -136,10 +141,10 @@
         requireCore();
 
         // "Advanced" = a 16-bar-ish loop (16 cycles) with changes every 4 bars.
-        // House heuristics used here:
-        // - 4-on-the-floor kick + clap on 2&4
-        // - offbeat open hat
-        // - melody mostly in A minor pentatonic (A C D E G) for that classic feel
+        // Deep house-ish heuristics:
+        // - steady 4-on-the-floor, softer hats, warmer chords
+        // - jazzy extensions (7ths/9ths) for the pad
+        // - a simple, syncopated lead that leaves space
 
         // Drums
         const kick = Core.note("c2")
@@ -160,17 +165,17 @@
         const hats = Core.note("c6")
           .s("square")
           .release(0.012)
-          .gain("<0.03 0.05 0.04 0.06>")
-          .hpf(5200)
+          .gain("<0.02 0.03 0.025 0.035>")
+          .hpf(4300)
           .fast(16)
           // tiny 4-bar movement
           .gain("<0.85 1 0.9 1>/4");
 
         const openHat = Core.note("c6")
           .s("sawtooth")
-          .release(0.10)
-          .gain(0.022)
-          .hpf(3600)
+          .release(0.12)
+          .gain(0.015)
+          .hpf(3200)
           .fast(8)
           .delay(0.5);
 
@@ -185,35 +190,35 @@
           .slow(4);
 
         // Pad / chords: 4-chord loop, each chord lasts 4 bars = 16 bars total.
-        const chords = Core.note("<a3 c4 e4 g4> <f3 a3 c4 e4> <g3 b3 d4 f4> <e3 g3 b3 d4>")
+        // Pad chords: Am9  Fmaj9  G13-ish  Em9 (jazzy extensions)
+        const chords = Core.note(
+          "<a3 c4 e4 g4 b4> <f3 a3 c4 e4 g4> <g3 b3 d4 f4 a4 e5> <e3 g3 b3 d4 f4>"
+        )
           .s("sawtooth")
-          .release(0.9)
-          .gain(0.05)
-          .lpf("<600 900 700 1000>/4")
+          .release(1.1)
+          .gain(0.045)
+          .lpf("<500 800 650 900>/4")
           .slow(4);
 
-        // Melody: four 4-bar phrases (A minor pentatonic-ish), with call/response.
-        const phraseA = "<a4 c5 e5 g5 e5 d5 c5 e5>";
-        const phraseB = "<a4 c5 d5 e5 g5 e5 d5 c5>";
-        const phraseC = "<e5 g5 a5 g5 e5 d5 c5 a4>";
-        const phraseD = "<c5 d5 e5 g5 a5 g5 e5 d5>";
-        const melody = Core.note(`<${phraseA} ${phraseB} ${phraseC} ${phraseD}>`)
+        // Lead melody: keep it syncopated and roomy (deep house vibe).
+        // 4-bar phrase, repeated across 16 bars with subtle filter motion.
+        const lead = Core.note("<e5 ~ g5 a5  ~ c6 ~ a5  g5 ~ e5 ~>" )
           .s("triangle")
-          .release(0.10)
-          .gain(0.085)
-          .lpf(1400)
-          .fast(8)
+          .release(0.14)
+          .gain(0.075)
+          .lpf("<900 1100 1000 1200>/4")
+          .fast(4)
           .slow(4);
 
-        // A little "hook" stab that appears every 4 bars.
-        const stab = Core.note("<a4 c5 e5 a5>")
+        // A soft stab that hits on offbeats in the 2nd and 4th 4-bar sections.
+        const stab = Core.note("<a4 c5 e5 g5>")
           .s("square")
-          .release(0.12)
-          .gain("<0.00 0.08 0.00 0.06>/4")
-          .bpf(900)
+          .release(0.10)
+          .gain("<0 0.05 0 0.05>/4")
+          .bpf(1200)
           .slow(4);
 
-        return Core.stack(kick, clap, hats, openHat, bass, chords, melody, stab);
+        return Core.stack(kick, clap, hats, openHat, bass, chords, lead, stab);
       }
 
       const PRESET = {
@@ -224,7 +229,7 @@
         },
         advanced: {
           name: "Advanced (song-ish)",
-          code: `// Advanced example (16-bar-ish loop, synth-only)\n// - 4-on-the-floor kick + clap on 2&4\n// - offbeat open hat + 16th hats\n// - bass + pad chords\n// - melody mostly in A minor pentatonic (A C D E G)\n// Tip: turn volume down before hitting Play`, 
+          code: `// Advanced example (deep house-ish, 16-bar-ish loop)\n// Tempo: 128 BPM\n// - 4-on-the-floor kick + clap on 2&4\n// - softer hats + offbeat open hat\n// - jazzy pad chords (7ths/9ths)\n// - syncopated lead (leaves space)\n// Tip: turn volume down before hitting Play`, 
           make: makeAdvancedPattern,
         },
       };
