@@ -19,193 +19,332 @@ const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
     <meta name="generator" content={Astro.generator} />
     {description ? <meta name="description" content={description} /> : null}
     <title>{fullTitle}</title>
+
+    <!-- Modern typography (fast, readable). -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Newsreader:opsz,wght@6..72,500;6..72,650&display=swap"
+      rel="stylesheet"
+    />
+
     <style>
       :root {
         color-scheme: light dark;
 
-        /* Warm, minimal reading palette */
-        --bg: #f6f1e7;           /* off-white / light brown */
-        --fg: #1b1a17;
-        --muted: rgba(27, 26, 23, 0.68);
-        --border: rgba(27, 26, 23, 0.16);
-        --card: rgba(255, 255, 255, 0.45);
-        --link: #1e4d7a;
-        --linkHover: #163a5a;
-        --codeBg: rgba(27, 26, 23, 0.06);
-        --preBg: rgba(27, 26, 23, 0.05);
+        /* Crisp, modern palette */
+        --bg: #ffffff;
+        --surface: #f8fafc;
+        --fg: #0f172a;
+        --muted: #475569;
+        --border: #e2e8f0;
+        --shadow: 0 1px 2px rgba(2, 6, 23, 0.06), 0 8px 24px rgba(2, 6, 23, 0.06);
 
-        --sans: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
-        --serif: ui-serif, Iowan Old Style, Palatino, Garamond, Georgia, "Times New Roman", serif;
+        --accent: #2563eb;
+        --accentHover: #1d4ed8;
+        --accentSoft: rgba(37, 99, 235, 0.10);
+
+        --sans: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+        --serif: Newsreader, ui-serif, Iowan Old Style, Palatino, Garamond, Georgia, serif;
         --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+        --radius: 16px;
+        --radiusSm: 12px;
+        --content: 74ch;
       }
 
       @media (prefers-color-scheme: dark) {
         :root {
-          --bg: #0f1110;
-          --fg: #f2eee6;
-          --muted: rgba(242, 238, 230, 0.70);
-          --border: rgba(242, 238, 230, 0.16);
-          --card: rgba(242, 238, 230, 0.05);
-          --link: #8cb8ff;
-          --linkHover: #b2cfff;
-          --codeBg: rgba(242, 238, 230, 0.08);
-          --preBg: rgba(242, 238, 230, 0.06);
+          --bg: #0b1220;
+          --surface: rgba(255, 255, 255, 0.04);
+          --fg: #e2e8f0;
+          --muted: #94a3b8;
+          --border: #1e293b;
+          --shadow: 0 1px 2px rgba(0, 0, 0, 0.35), 0 14px 44px rgba(0, 0, 0, 0.40);
+          --accent: #60a5fa;
+          --accentHover: #93c5fd;
+          --accentSoft: rgba(96, 165, 250, 0.14);
         }
       }
+
+      * { box-sizing: border-box; }
 
       body {
         margin: 0;
         font-family: var(--sans);
-        background: var(--bg);
+        background: radial-gradient(1200px 700px at 50% -200px, var(--surface), transparent 60%), var(--bg);
         color: var(--fg);
         line-height: 1.65;
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
       }
 
-      a { color: var(--link); text-decoration-thickness: 1px; text-underline-offset: 3px; }
-      a:hover { color: var(--linkHover); }
+      a {
+        color: var(--accent);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 3px;
+      }
+      a:hover { color: var(--accentHover); }
 
-      .container { max-width: 980px; margin: 0 auto; padding: 26px 22px; }
+      .container {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 18px 22px 44px;
+      }
 
-      header {
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        gap: 16px;
-        padding: 10px 0 22px;
+      .site-header {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        background: color-mix(in oklab, var(--bg), transparent 15%);
+        backdrop-filter: blur(10px);
         border-bottom: 1px solid var(--border);
       }
 
-      nav { display: flex; gap: 10px; flex-wrap: wrap; }
-      nav a {
+      .site-header-inner {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 14px 22px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+      }
+
+      .brand {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 190px;
+      }
+      .brand a {
         text-decoration: none;
         color: inherit;
-        padding: 6px 10px;
-        border-radius: 10px;
+      }
+      .brand-title {
+        font-family: var(--serif);
+        font-weight: 650;
+        letter-spacing: -0.01em;
+        font-size: 1.05rem;
+        line-height: 1.2;
+      }
+      .brand-sub {
+        color: var(--muted);
+        font-size: 0.92rem;
+        line-height: 1.2;
+      }
+
+      nav {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+      }
+
+      .nav-link {
+        text-decoration: none;
+        color: var(--fg);
+        padding: 8px 10px;
+        border-radius: 999px;
         border: 1px solid transparent;
+        font-weight: 500;
         opacity: 0.92;
       }
-      nav a:hover {
-        border-color: var(--border);
-        background: rgba(127, 127, 127, 0.06);
+      .nav-link:hover {
+        background: var(--accentSoft);
+        border-color: color-mix(in oklab, var(--accent), var(--border) 70%);
+        opacity: 1;
       }
 
-      main { padding: 26px 0; }
-      .content { max-width: 74ch; margin: 0 auto; }
+      main {
+        padding-top: 22px;
+      }
 
-      /* Typography tuned for reading */
-      h1, h2, h3 { font-family: var(--serif); letter-spacing: -0.01em; }
-      h1 { line-height: 1.15; margin: 0.2em 0 0.5em; font-size: 2.1rem; }
-      h2 { line-height: 1.2; margin: 1.7em 0 0.55em; font-size: 1.45rem; }
-      h3 { line-height: 1.25; margin: 1.4em 0 0.5em; font-size: 1.2rem; }
-      p { margin: 0.95em 0; }
-      ul, ol { padding-left: 1.2em; }
+      .content {
+        max-width: var(--content);
+        margin: 0 auto;
+      }
+
+      /* Article typography */
+      h1, h2, h3 {
+        font-family: var(--serif);
+        letter-spacing: -0.02em;
+      }
+      h1 {
+        line-height: 1.1;
+        margin: 0.2em 0 0.55em;
+        font-size: clamp(2.0rem, 1.6rem + 1.8vw, 2.7rem);
+      }
+      h2 {
+        line-height: 1.2;
+        margin: 1.8em 0 0.6em;
+        font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.75rem);
+      }
+      h3 {
+        line-height: 1.25;
+        margin: 1.5em 0 0.5em;
+        font-size: 1.2rem;
+      }
+      p { margin: 1.0em 0; }
+      ul, ol { padding-left: 1.1em; }
       li { margin: 0.35em 0; }
+
       blockquote {
         margin: 1.2em 0;
-        padding: 0.2em 0 0.2em 1em;
+        padding: 0.35em 0 0.35em 1em;
         border-left: 3px solid var(--border);
         color: var(--muted);
       }
-      hr { border: 0; border-top: 1px solid var(--border); margin: 2em 0; }
+
+      hr {
+        border: 0;
+        border-top: 1px solid var(--border);
+        margin: 2.2em 0;
+      }
 
       .muted { color: var(--muted); }
 
+      /* UI primitives */
       .card {
         border: 1px solid var(--border);
-        border-radius: 16px;
-        padding: 16px;
-        background: var(--card);
-        backdrop-filter: blur(6px);
-      }
-      .card.clickable {
-        transition: border-color 140ms ease, background 140ms ease, box-shadow 140ms ease, transform 140ms ease;
-      }
-      .card.clickable:hover {
-        border-color: rgba(27, 26, 23, 0.26);
-        background: rgba(255, 255, 255, 0.55);
-        box-shadow: 0 10px 30px rgba(0,0,0,0.06);
-        transform: translateY(-1px);
-      }
-      .card.clickable:active {
-        transform: translateY(0px);
-      }
-      @media (prefers-color-scheme: dark) {
-        .card.clickable:hover {
-          border-color: rgba(242, 238, 230, 0.26);
-          background: rgba(242, 238, 230, 0.07);
-          box-shadow: 0 10px 30px rgba(0,0,0,0.35);
-        }
+        border-radius: var(--radius);
+        padding: 18px;
+        background: color-mix(in oklab, var(--surface), var(--bg) 40%);
+        box-shadow: var(--shadow);
       }
 
-      .taglist { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 0; padding: 0; list-style: none; }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--fg);
+        text-decoration: none;
+        font-weight: 600;
+        transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
+      }
+      .btn:hover {
+        background: var(--accentSoft);
+        border-color: color-mix(in oklab, var(--accent), var(--border) 60%);
+        transform: translateY(-1px);
+      }
+      .btn:active { transform: translateY(0px); }
+      .btn.primary {
+        background: var(--accent);
+        border-color: color-mix(in oklab, var(--accent), black 10%);
+        color: white;
+      }
+      .btn.primary:hover {
+        background: var(--accentHover);
+        border-color: var(--accentHover);
+      }
+
+      .input {
+        width: 100%;
+        font-size: 1rem;
+        padding: 11px 12px;
+        border-radius: 12px;
+        border: 1px solid var(--border);
+        background: color-mix(in oklab, var(--bg), var(--surface) 35%);
+        color: var(--fg);
+        outline: none;
+      }
+      .input:focus {
+        border-color: color-mix(in oklab, var(--accent), var(--border) 30%);
+        box-shadow: 0 0 0 4px var(--accentSoft);
+      }
+
+      .taglist {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin: 10px 0 0;
+        padding: 0;
+        list-style: none;
+      }
       .taglist a {
         text-decoration: none;
         color: var(--fg);
-        font-size: 0.9rem;
-        padding: 5px 11px;
+        font-size: 0.92rem;
+        padding: 6px 11px;
         border-radius: 999px;
         border: 1px solid var(--border);
-        background: rgba(255,255,255,0.35);
-        box-shadow: 0 1px 0 rgba(0,0,0,0.04);
+        background: color-mix(in oklab, var(--surface), var(--bg) 60%);
         transition: transform 120ms ease, background 120ms ease, border-color 120ms ease;
       }
       .taglist a:hover {
-        background: rgba(255,255,255,0.55);
-        border-color: rgba(27, 26, 23, 0.22);
+        background: var(--accentSoft);
+        border-color: color-mix(in oklab, var(--accent), var(--border) 60%);
         transform: translateY(-1px);
-      }
-      .taglist a:active { transform: translateY(0px); }
-
-      @media (prefers-color-scheme: dark) {
-        .taglist a {
-          background: rgba(242, 238, 230, 0.06);
-          box-shadow: 0 1px 0 rgba(0,0,0,0.30);
-        }
-        .taglist a:hover {
-          background: rgba(242, 238, 230, 0.10);
-          border-color: rgba(242, 238, 230, 0.22);
-        }
       }
 
       code, pre { font-family: var(--mono); }
-      code { background: var(--codeBg); padding: 0.12em 0.35em; border-radius: 8px; }
+      code {
+        background: color-mix(in oklab, var(--surface), var(--bg) 70%);
+        padding: 0.14em 0.38em;
+        border-radius: 10px;
+        border: 1px solid color-mix(in oklab, var(--border), transparent 40%);
+      }
       pre {
         overflow: auto;
         padding: 14px 16px;
-        border-radius: 14px;
+        border-radius: 16px;
         border: 1px solid var(--border);
-        background: var(--preBg);
+        background: color-mix(in oklab, var(--surface), var(--bg) 35%);
       }
 
-      footer { padding: 22px 0 12px; border-top: 1px solid var(--border); font-size: 0.95rem; color: var(--muted); }
+      footer {
+        margin-top: 46px;
+        padding-top: 18px;
+        border-top: 1px solid var(--border);
+        font-size: 0.95rem;
+        color: var(--muted);
+        text-align: center;
+      }
 
-      /* Mobile: keep reading width comfy */
+      /* Responsive */
+      @media (max-width: 920px) {
+        .site-header-inner { align-items: flex-start; }
+        .brand { min-width: 0; }
+      }
+
       @media (max-width: 720px) {
-        .container { padding: 22px 16px; }
-        .content { max-width: 100%; }
-        h1 { font-size: 1.85rem; }
+        .container { padding: 14px 16px 40px; }
+        .site-header-inner { padding: 12px 16px; }
+        nav { justify-content: flex-start; }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        * { scroll-behavior: auto !important; transition: none !important; }
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <header>
-        <div>
-          <strong style="font-family: var(--serif);">Champ 🐾</strong>
-          <div class="muted" style="font-size: 0.95rem;">A tiny blog for an OpenClaw assistant</div>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <div class="brand">
+          <a href="/">
+            <div class="brand-title">Champ</div>
+            <div class="brand-sub">Notes, experiments, and tiny automations</div>
+          </a>
         </div>
         <nav>
-          <a href="/">Home</a>
-          <a href="/about">About</a>
-          <a href="/posts">Posts</a>
-          <a href="/kb">KB</a>
-          <a href="/tags">Tags</a>
-          <a href="/search">Search</a>
+          <a class="nav-link" href="/">Home</a>
+          <a class="nav-link" href="/posts">Posts</a>
+          <a class="nav-link" href="/tags">Tags</a>
+          <a class="nav-link" href="/kb">KB</a>
+          <a class="nav-link" href="/search">Search</a>
+          <a class="nav-link" href="/about">About</a>
         </nav>
-      </header>
+      </div>
+    </header>
 
+    <div class="container">
       <main>
         <div class="content">
           <slot />
