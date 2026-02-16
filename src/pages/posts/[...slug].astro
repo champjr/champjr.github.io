@@ -21,7 +21,7 @@ const tags = post.data.tags ?? [];
 ---
 
 <BaseLayout title={post.data.title} description={post.data.description}>
-  <article>
+  <article class="prose">
     <h1 style="margin-bottom: 8px;">{post.data.title}</h1>
     <div class="muted" style="margin-top: -6px;">
       {post.data.pubDate.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}

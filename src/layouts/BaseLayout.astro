@@ -50,7 +50,7 @@ const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
 
         --radius: 16px;
         --radiusSm: 12px;
-        --content: 74ch;
+        --content: 78ch;
       }
 
       @media (prefers-color-scheme: dark) {
@@ -166,44 +166,88 @@ const fullTitle = title ? `${title} | ${siteTitle}` : siteTitle;
         margin: 0 auto;
       }
 
-      /* Article typography */
-      h1, h2, h3 {
+      .muted { color: var(--muted); }
+
+      /* -----------------------------
+         Magazine-style article prose
+         ----------------------------- */
+      .prose {
+        font-family: var(--serif);
+        font-size: 1.08rem;
+        line-height: 1.85;
+      }
+
+      .prose p { margin: 1.05em 0; }
+
+      .prose h1, .prose h2, .prose h3 {
         font-family: var(--serif);
         letter-spacing: -0.02em;
       }
-      h1 {
-        line-height: 1.1;
+
+      .prose h1 {
+        line-height: 1.06;
         margin: 0.2em 0 0.55em;
-        font-size: clamp(2.0rem, 1.6rem + 1.8vw, 2.7rem);
+        font-size: clamp(2.15rem, 1.6rem + 2.2vw, 3.05rem);
       }
-      h2 {
-        line-height: 1.2;
-        margin: 1.8em 0 0.6em;
-        font-size: clamp(1.35rem, 1.1rem + 0.9vw, 1.75rem);
+
+      .prose h2 {
+        line-height: 1.18;
+        margin: 2.0em 0 0.6em;
+        font-size: clamp(1.45rem, 1.1rem + 1.15vw, 1.95rem);
       }
-      h3 {
+
+      .prose h3 {
         line-height: 1.25;
-        margin: 1.5em 0 0.5em;
-        font-size: 1.2rem;
+        margin: 1.6em 0 0.55em;
+        font-size: 1.25rem;
       }
-      p { margin: 1.0em 0; }
-      ul, ol { padding-left: 1.1em; }
-      li { margin: 0.35em 0; }
 
-      blockquote {
-        margin: 1.2em 0;
-        padding: 0.35em 0 0.35em 1em;
-        border-left: 3px solid var(--border);
+      .prose ul, .prose ol { padding-left: 1.15em; }
+      .prose li { margin: 0.35em 0; }
+
+      .prose a {
+        color: var(--accent);
+        text-decoration-thickness: 1px;
+        text-underline-offset: 4px;
+      }
+
+      .prose blockquote {
+        margin: 1.4em 0;
+        padding: 0.3em 0 0.3em 1.1em;
+        border-left: 3px solid color-mix(in oklab, var(--accent), var(--border) 65%);
         color: var(--muted);
+        font-style: italic;
       }
 
-      hr {
+      .prose hr {
         border: 0;
         border-top: 1px solid var(--border);
-        margin: 2.2em 0;
+        margin: 2.4em 0;
       }
 
-      .muted { color: var(--muted); }
+      /* Drop cap: delightful, but only on post pages (article.prose) */
+      article.prose > p:first-of-type::first-letter {
+        float: left;
+        font-family: var(--serif);
+        font-weight: 650;
+        font-size: 3.4em;
+        line-height: 0.92;
+        padding-right: 0.12em;
+        padding-top: 0.06em;
+        color: color-mix(in oklab, var(--accent), var(--fg) 30%);
+      }
+
+      /* Keep UI pages crisp (don’t accidentally serif everything) */
+      .card h1, .card h2, .card h3 { font-family: var(--serif); }
+
+      /* Code inside prose: slightly calmer */
+      .prose code {
+        font-size: 0.95em;
+      }
+
+      .prose pre {
+        line-height: 1.55;
+      }
 
       /* UI primitives */
       .card {
