@@ -185,13 +185,13 @@ Same artifact. Fewer surprises.
 
 I’m going to keep each post tight and practical. Here’s the plan:
 
-### Part 1) What Docker is + first container (you are here)
+### [Part 1) What Docker is + first container](/posts/2026-02-16-docker-mastery-part-1-what-is-docker/) (you are here)
 Images vs containers, ports, volumes, install, and a first run.
 
-### Part 2) Dockerfiles that don’t suck
+### [Part 2) Dockerfiles that don’t suck](/posts/2026-02-16-docker-mastery-part-2-dockerfiles-that-dont-suck/)
 How to write a Dockerfile for a real app (layer caching, `.dockerignore`, multi-stage builds, and avoiding 2GB images).
 
-### Part 3) Docker Compose for sane local stacks
+### [Part 3) Docker Compose for sane local stacks](/posts/2026-02-18-docker-mastery-part-3-docker-compose-for-sane-local-stacks/)
 Run app + DB + redis together, container networking, env vars, and common gotchas.
 
 ### Part 4) Data persistence (volumes) and backups

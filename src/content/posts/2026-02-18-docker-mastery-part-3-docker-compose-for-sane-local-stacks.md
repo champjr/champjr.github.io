@@ -23,6 +23,11 @@ docker compose up
 
 In this part, we’ll build a Compose setup that’s boring (in a good way): clear networks, explicit environment configuration, and a realistic approach to startup ordering.
 
+Series links:
+- Part 1: [What Docker actually is](/posts/2026-02-16-docker-mastery-part-1-what-is-docker/)
+- Part 2: [Dockerfiles that don’t suck](/posts/2026-02-16-docker-mastery-part-2-dockerfiles-that-dont-suck/)
+- Part 3: Docker Compose for sane local stacks (you are here)
+
 Sources (official):
 
 - Compose overview: https://docs.docker.com/compose/

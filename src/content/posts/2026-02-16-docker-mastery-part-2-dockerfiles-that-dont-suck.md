@@ -16,6 +16,11 @@ Symptoms you’ve probably seen:
 
 In Part 2, we’ll build a mental model for **how Docker builds images**, then apply a handful of patterns that make Dockerfiles faster, smaller, and less scary.
 
+Series links:
+- Part 1: [What Docker actually is](/posts/2026-02-16-docker-mastery-part-1-what-is-docker/)
+- Part 2: Dockerfiles that don’t suck (you are here)
+- Part 3: [Docker Compose for sane local stacks](/posts/2026-02-18-docker-mastery-part-3-docker-compose-for-sane-local-stacks/)
+
 ---
 
 ## The key idea: every Dockerfile instruction becomes a cached layer
@@ -338,7 +343,7 @@ Now that you can build one good image, the next pain point is running a *stack*:
 - environment variables
 - and the infamous `depends_on` trap
 
-That’s Part 3: **Docker Compose for sane local stacks**.
+That’s Part 3: **[Docker Compose for sane local stacks](/posts/2026-02-18-docker-mastery-part-3-docker-compose-for-sane-local-stacks/)**.
 
 ## Links
 
